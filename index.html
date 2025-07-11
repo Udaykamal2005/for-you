@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Letter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(to top left, #ffe6ea, #fff0f5);
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart {
+      width: 20px;
+      height: 20px;
+      background-color: #ff4d6d;
+      position: absolute;
+      animation: float 6s infinite ease-in;
+      transform: rotate(45deg);
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background-color: #ff4d6d;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { top: 0; left: -10px; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .envelope {
+      width: 220px;
+      height: 140px;
+      background: white;
+      border: 2px solid #ff4d4d;
+      position: relative;
+      cursor: pointer;
+      transition: 0.5s;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      margin: 0 auto;
+    }
+
+    .flap {
+      position: absolute;
+      top: -2px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 110px solid transparent;
+      border-right: 110px solid transparent;
+      border-top: 70px solid #ff4d4d;
+      transform-origin: bottom;
+      transition: transform 0.6s ease;
+    }
+
+    .photo, .finalImage {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: pink;
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .photo img, .finalImage img {
+      max-height: 90vh;
+      max-width: 90vw;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .photo {
+      animation: fadeOut 3s ease-in-out forwards;
+      animation-delay: 1s;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      90% { opacity: 0; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
+    .message {
+      display: none;
+      font-size: 18px;
+      color: #b30047;
+      margin-top: 20px;
+      animation: fadeIn 1.2s ease forwards;
+      font-family: 'Cursive', 'Segoe Script', sans-serif;
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 15px;
+      background: #fff0f5;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .envelope {
+        width: 160px;
+        height: 100px;
+      }
+
+      .flap {
+        border-left: 80px solid transparent;
+        border-right: 80px solid transparent;
+        border-top: 50px solid #ff4d4d;
+      }
+
+      .message {
+        font-size: 16px;
+        padding: 10px;
+        max-height: 55vh;
+      }
+
+      .btn {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts">
+    <div class="heart" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="heart" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="heart" style="left: 50%; animation-delay: 1s;"></div>
+    <div class="heart" style="left: 70%; animation-delay: 3s;"></div>
+    <div class="heart" style="left: 90%; animation-delay: 1.5s;"></div>
+  </div>
+
+  <div class="container">
+    <div class="envelope" onclick="openLetter(this)">
+      <div class="flap"></div>
+    </div>
+
+    <!-- Girl Photo -->
+    <div class="photo" id="photoLayer">
+      <img src="chitti.jpg" alt="Photo">
+    </div>
+
+    <!-- Final Funny Image -->
+    <div class="finalImage" id="finalImageLayer">
+      <img src="please.jpg" alt="Please Matladeyy">
+    </div>
+
+    <!-- Message -->
+    <div class="message" id="message">
+      oye na chitti bujji darling.💗  
+      nenu edho annaney kani sorry  
+      kanii... nenna annave annetlo adhe vere ammaye kosam dorukuthey bagundu ala anna gaa adhe  
+      vere ammaye kadhu ra 😭  
+      anduloo prathi okate nenu chstha annadhe nekosamee raa 🥺  
+      indirect anne ne kosame chstha anna ..  
+      andukey gama nenchava nenu prathi dhntlo clg strt ayyaka ane ala anna enduku anukunnav  
+      enduku antey clg strt ayyaka chese chupinche adhe vere ammaye kadhu nuvvey ane chpdam anukunna  
+      kani ekkada  
+      pusukunna payye nuvvu adatam banchesavvv 🥺😢  
+      inka nuvvu adhe ane chptunna .  
+      arey nuvvey chpu vere ammaye kosam enduku wait chstha enduku unta  
+      naku nuvvu em chsna ala unna nuvvey ga ra istam  
+      inka naku vere vallu enduku avsrm padutadhu pichi dhana... and naku asal ah alochana enduku vastadhe nuvvu kakunda vere ammaye ane..🤦‍♂️  
+      naku vere ammaye eh na adhe nuvvey ... anney nuvvey ..  
+      sarey ala anna naku ardham ayindhe 🙇‍♂️🙇‍♂️.  
+      very very very sorry , 😔😔  
+      andukey avvane eroju nunche cheydam ane fix ayya  
+      oye ala undakey jara matladu  😩🥺🤌
+      i always love you eppateke appateke💏💌..!
+
+      <button class="btn" onclick="showFinalImage()">chaduvuthey edhe nokku</button>
+    </div>
+  </div>
+
+  <script>
+    function openLetter(el) {
+      el.style.display = 'none';
+      setTimeout(() => {
+        const photo = document.getElementById('photoLayer');
+        photo.style.display = 'flex';
+        setTimeout(() => {
+          photo.style.display = 'none';
+          document.getElementById('message').style.display = 'block';
+        }, 3000);
+      }, 2000);
+    }
+
+    function showFinalImage() {
+      document.getElementById('finalImageLayer').style.display = 'flex';
+    }
+  </script>
+
+</body>
+</html>
